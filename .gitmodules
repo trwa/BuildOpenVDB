@@ -1,0 +1,15 @@
+[submodule "c-blosc"]
+	path = c-blosc
+	url = https://github.com/Blosc/c-blosc.git
+[submodule "zlib"]
+	path = zlib
+	url = https://github.com/madler/zlib.git
+[submodule "boost"]
+	path = boost
+	url = https://github.com/boostorg/boost.git
+[submodule "openvdb"]
+	path = openvdb
+	url = https://github.com/AcademySoftwareFoundation/openvdb.git
+[submodule "oneTBB"]
+	path = oneTBB
+	url = https://github.com/oneapi-src/oneTBB.git
