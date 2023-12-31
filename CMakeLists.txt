@@ -9,5 +9,17 @@ set(BUILD_SHARED OFF)
 set(BUILD_TESTS OFF)
 add_subdirectory(c-blosc)
 
+# Boost
+set(BOOST_INCLUDE_LIBRARIES "iostreams;system")
+set(BUILD_STATIC ON)
+set(BUILD_SHARED OFF)
+set(BUILD_TESTS OFF)
+add_subdirectory(boost)
+
 add_library(build_openvdb STATIC library.cpp)
-target_link_libraries(build_openvdb PRIVATE c-blosc)
+target_link_libraries(build_openvdb
+        PRIVATE
+        c-blosc
+        boost_iostreams
+        boost_system
+)
