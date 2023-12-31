@@ -26,8 +26,8 @@ add_subdirectory(oneTBB)
 
 add_library(build_openvdb STATIC library.cpp)
 target_link_libraries(build_openvdb
-        PRIVATE
-        c-blosc
+        PUBLIC
+        blosc_static
         boost_iostreams
         boost_system
         TBB::tbb
