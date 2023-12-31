@@ -1,44 +1,11 @@
 cmake_minimum_required(VERSION 3.27)
-cmake_policy(SET CMP0077 NEW)
 
 project(build_openvdb)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# Blosc
-set(BUILD_STATIC ON)
-set(BUILD_SHARED OFF)
-set(BUILD_TESTS OFF)
-add_subdirectory(c-blosc)
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/libs/lib/cmake/OpenVDB")
+find_package(OpenVDB REQUIRED)
 
-# Boost
-set(BOOST_INCLUDE_LIBRARIES "iostreams;system")
-set(BUILD_STATIC ON)
-set(BUILD_SHARED OFF)
-set(BUILD_TESTS OFF)
-set(BOOST_IOSTREAMS_ENABLE_ZLIB OFF)
-add_subdirectory(boost)
-
-# OneTBB
-set(BUILD_SHARED_LIBS ON)
-set(TBB_DISABLE_HWLOC_AUTOMATIC_SEARCH ON)
-set(TBB_TEST OFF)
-add_subdirectory(oneTBB)
-
-# Zlib
-add_subdirectory(zlib)
-
-add_library(build_openvdb STATIC library.cpp)
-target_link_libraries(build_openvdb
-        PUBLIC
-        TBB::tbb
-
-        PRIVATE
-        blosc_static
-        boost_iostreams
-        boost_system
-        zlibstatic
-)
-
-add_executable(build_openvdb_test test.cpp)
-target_link_libraries(build_openvdb_test PRIVATE build_openvdb)
+add_executable(build_openvdb test.cpp vdb.cpp)
+target_link_libraries(build_openvdb OpenVDB::openvdb)
