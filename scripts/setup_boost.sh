@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-BOOST_SRC_DIR="$PWD"/vendor/boost
-BOOST_INSTALL_DIR="$PWD"/libs
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+BOOST_SRC_DIR="$SCRIPT_DIR"/../boost
+BOOST_INSTALL_DIR="$SCRIPT_DIR"/../libs
 
 BI_SRC_DIR="$PWD"
 
