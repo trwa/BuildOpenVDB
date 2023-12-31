@@ -1,8 +1,10 @@
 #!/bin/env bash
 
-ZLIB_SRC_DIR="$PWD"/vendor/zlib
-ZLIB_BUILD_DIR="$PWD"/build/zlib
-ZLIB_INSTALL_DIR="$PWD"/libs
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+ZLIB_SRC_DIR="$SCRIPT_DIR"/../zlib
+ZLIB_BUILD_DIR="$SCRIPT_DIR"/../build/zlib
+ZLIB_INSTALL_DIR="$SCRIPT_DIR"/../libs
 
 rm -rf "$ZLIB_BUILD_DIR"
 mkdir -p "$ZLIB_BUILD_DIR"
