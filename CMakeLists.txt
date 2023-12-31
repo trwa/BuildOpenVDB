@@ -32,3 +32,6 @@ target_link_libraries(build_openvdb
         boost_system
         TBB::tbb
 )
+
+add_executable(build_openvdb_test test.cpp)
+target_link_libraries(build_openvdb_test PRIVATE build_openvdb)
