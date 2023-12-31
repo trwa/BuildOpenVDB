@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+ROOT_DIR="$SCRIPT_DIR"/../..
 
-ONETBB_SRC_DIR="$SCRIPT_DIR"/../oneTBB
-ONETBB_BUILD_DIR="$SCRIPT_DIR"/../build/oneTBB
-ONETBB_INSTALL_DIR="$SCRIPT_DIR"/../libs
+ONETBB_SRC_DIR="$ROOT_DIR"/oneTBB
+ONETBB_BUILD_DIR="$ROOT_DIR"/build/oneTBB
+ONETBB_INSTALL_DIR="$ROOT_DIR"/libs
 
 rm -rf "$ONETBB_BUILD_DIR"
 mkdir -p "$ONETBB_BUILD_DIR"
@@ -20,5 +21,5 @@ cmake                                          \
   -S "$ONETBB_SRC_DIR"                         \
   --fresh
 
-cmake --build "$ONETBB_BUILD_DIR" # --config Release
+cmake --build "$ONETBB_BUILD_DIR"
 cmake --install "$ONETBB_BUILD_DIR"
