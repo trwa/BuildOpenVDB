@@ -3,4 +3,11 @@ project(build_openvdb)
 
 set(CMAKE_CXX_STANDARD 20)
 
+# Blosc
+set(BUILD_STATIC ON)
+set(BUILD_SHARED OFF)
+set(BUILD_TESTS OFF)
+add_subdirectory(c-blosc)
+
 add_library(build_openvdb STATIC library.cpp)
+target_link_libraries(build_openvdb PRIVATE c-blosc)
