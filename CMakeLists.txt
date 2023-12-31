@@ -16,6 +16,7 @@ set(BOOST_INCLUDE_LIBRARIES "iostreams;system")
 set(BUILD_STATIC ON)
 set(BUILD_SHARED OFF)
 set(BUILD_TESTS OFF)
+set(BOOST_IOSTREAMS_ENABLE_ZLIB OFF)
 add_subdirectory(boost)
 
 # OneTBB
@@ -24,6 +25,9 @@ set(TBB_DISABLE_HWLOC_AUTOMATIC_SEARCH ON)
 set(TBB_TEST OFF)
 add_subdirectory(oneTBB)
 
+# Zlib
+add_subdirectory(zlib)
+
 add_library(build_openvdb STATIC library.cpp)
 target_link_libraries(build_openvdb
         PUBLIC
@@ -31,6 +35,7 @@ target_link_libraries(build_openvdb
         boost_iostreams
         boost_system
         TBB::tbb
+        zlibstatic
 )
 
 add_executable(build_openvdb_test test.cpp)
