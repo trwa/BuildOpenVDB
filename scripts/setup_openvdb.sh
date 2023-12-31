@@ -1,8 +1,10 @@
 #!/bin/env bash
 
-OPENVDB_SRC_DIR="$PWD"/vendor/openvdb
-OPENVDB_BUILD_DIR="$PWD"/build/openvdb
-OPENVDB_INSTALL_DIR="$PWD"/libs
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+OPENVDB_SRC_DIR="$SCRIPT_DIR"/../openvdb
+OPENVDB_BUILD_DIR="$SCRIPT_DIR"/../build/openvdb
+OPENVDB_INSTALL_DIR="$SCRIPT_DIR"/../libs
 
 rm -r "$OPENVDB_BUILD_DIR"
 mkdir -p "$OPENVDB_BUILD_DIR"
