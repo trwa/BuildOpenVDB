@@ -31,10 +31,12 @@ add_subdirectory(zlib)
 add_library(build_openvdb STATIC library.cpp)
 target_link_libraries(build_openvdb
         PUBLIC
+        TBB::tbb
+
+        PRIVATE
         blosc_static
         boost_iostreams
         boost_system
-        TBB::tbb
         zlibstatic
 )
 
