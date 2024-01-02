@@ -4,6 +4,10 @@ This is a (hopefully) sensible build of ASFW's [OpenVDB](https://www.openvdb.org
 Differently from what suggested in the [official README](https://github.com/AcademySoftwareFoundation/openvdb), this repo assumes no system dependencies other than [git](https://git-scm.com/), [CMake](https://cmake.org/) and a suitable C++ toolchain.
 Thus, it makes it suitable for self-contained use (for example, as a submodule in your project).
 
+## Build Type(s)
+
+* Static
+
 ## Supported OSes
 
 * Windows
