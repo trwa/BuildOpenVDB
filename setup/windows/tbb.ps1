@@ -1,6 +1,8 @@
-$ONETBB_SRC_DIR = Join-Path "$PSScriptRoot" "/vendor/oneTBB"
-$ONETBB_BUILD_DIR = Join-Path "$PSScriptRoot" "/build/oneTBB"
-$ONETBB_INSTALL_DIR = Join-Path "$PSScriptRoot" "/libs"
+$ROOT_DIR = Join-Path "$PSScriptRoot" "/../.."
+
+$ONETBB_SRC_DIR = Join-Path "$ROOT_DIR" "/oneTBB"
+$ONETBB_BUILD_DIR = Join-Path "$ROOT_DIR" "/build/oneTBB"
+$ONETBB_INSTALL_DIR = Join-Path "$ROOT_DIR" "/libs"
 
 rm -Recurse -Force "$ONETBB_BUILD_DIR"
 mkdir "$ONETBB_BUILD_DIR" -ea 0

@@ -1,6 +1,8 @@
-$ZLIB_SRC_DIR = Join-Path "$PSScriptRoot" "/vendor/zlib"
-$ZLIB_BUILD_DIR = Join-Path "$PSScriptRoot" "/build/zlib"
-$ZLIB_INSTALL_DIR = Join-Path "$PSScriptRoot" "/libs"
+$ROOT_DIR = Join-Path "$PSScriptRoot" "/../.."
+
+$ZLIB_SRC_DIR = Join-Path "$ROOT_DIR" "/zlib"
+$ZLIB_BUILD_DIR = Join-Path "$ROOT_DIR" "/build/zlib"
+$ZLIB_INSTALL_DIR = Join-Path "$ROOT_DIR" "/libs"
 
 rm -Recurse -Force "$ZLIB_BUILD_DIR"
 mkdir "$ZLIB_BUILD_DIR" -ea 0

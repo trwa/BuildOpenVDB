@@ -1,6 +1,8 @@
-$OPENVDB_SRC_DIR = Join-Path "$PSScriptRoot" "/vendor/openvdb"
-$OPENVDB_BUILD_DIR = Join-Path "$PSScriptRoot" "/build/openvdb"
-$OPENVDB_INSTALL_DIR = Join-Path "$PSScriptRoot" "/libs"
+$ROOT_DIR = Join-Path "$PSScriptRoot" "/../.."
+
+$OPENVDB_SRC_DIR = Join-Path "$ROOT_DIR" "/openvdb"
+$OPENVDB_BUILD_DIR = Join-Path "$ROOT_DIR" "/build/openvdb"
+$OPENVDB_INSTALL_DIR = Join-Path "$ROOT_DIR" "/libs"
 
 rm -Recurse -Force "$OPENVDB_BUILD_DIR" -ea 0
 mkdir "$OPENVDB_BUILD_DIR" -ea 0
