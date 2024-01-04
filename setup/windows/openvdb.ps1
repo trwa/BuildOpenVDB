@@ -20,6 +20,7 @@ cmake                                             `
     -DTBB_LIBRARYDIR="$OPENVDB_INSTALL_DIR/lib"   `
     -DZLIB_ROOT="$OPENVDB_INSTALL_DIR"            `
     -DUSE_STATIC_DEPENDENCIES=ON                  `
+    -DUSE_EXPLICIT_INSTANTIATION=OFF              `
     -DBoost_USE_STATIC_LIBS=ON                    `
     -DTBB_USE_STATIC_LIBS=ON                      `
     -DUSE_BLOSC=ON                                `
