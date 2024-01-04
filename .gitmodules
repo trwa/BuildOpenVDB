@@ -1,5 +1,5 @@
 [submodule "c-blosc"]
-	path = c-blosc
+	path = vendor/c-blosc
 	url = https://github.com/Blosc/c-blosc.git
 [submodule "zlib"]
 	path = zlib
