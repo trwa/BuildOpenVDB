@@ -4,9 +4,6 @@
 [submodule "zlib"]
 	path = vendor/zlib
 	url = https://github.com/madler/zlib.git
-[submodule "boost"]
-	path = vendor/boost
-	url = https://github.com/boostorg/boost.git
 [submodule "openvdb"]
 	path = vendor/openvdb
 	url = https://github.com/AcademySoftwareFoundation/openvdb.git
