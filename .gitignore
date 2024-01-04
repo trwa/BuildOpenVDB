@@ -4,6 +4,8 @@ tmp
 tmp/*
 libs
 libs/*
+install
+install/*
 .cache
 .idea
 .vs
