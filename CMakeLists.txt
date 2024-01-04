@@ -1,81 +1,52 @@
 cmake_minimum_required(VERSION 3.27)
 
-#project(build_openvdb)
+# https://github.com/Sarcasm/cmake-superbuild.git
+option(USE_SUPERBUILD "Whether or not a superbuild should be invoked" ON)
 
-#set(CMAKE_CXX_STANDARD 20)
+set(MY_SOURCE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}")
 
-#set(CMAKE_PREFIX_PATH "${PROJECT_SOURCE_DIR}/install")
-#set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/install/lib/cmake/OpenVDB")
-#set(USE_STATIC_DEPENDENCIES ON)
-#find_package(OpenVDB REQUIRED)
+if (USE_SUPERBUILD)
+    set(MY_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/_install")
+    set(MY_BUILD_PREFIX "${CMAKE_BINARY_DIR}/_build")
+else ()
+    set(MY_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+    set(MY_BUILD_PREFIX "${CMAKE_BINARY_DIR}")
+endif ()
 
+message(STATUS "MY_SOURCE_PREFIX: ${MY_SOURCE_PREFIX}")
+message(STATUS "MY_BUILD_PREFIX: ${MY_BUILD_PREFIX}")
+message(STATUS "MY_INSTALL_PREFIX: ${MY_INSTALL_PREFIX}")
 
-project(build_openvdb)
+if (USE_SUPERBUILD)
+    project(SUPERBUILD NONE)
+    include(cmake/SuperBuild.cmake)
+    return()
+else ()
+    project(build_openvdb)
 
-include(ExternalProject)
-# set(CMAKE_CXX_STANDARD 20)
+    set(DISABLE_CMAKE_SEARCH_PATHS TRUE)
+    set(CMAKE_MODULE_PATH "${MY_INSTALL_PREFIX}/lib/cmake/OpenVDB")
+    set(CMAKE_PREFIX_PATH "${MY_INSTALL_PREFIX}")
 
-# Blosc
-#set(BUILD_STATIC ON CACHE INTERNAL "" FORCE)
-#set(BUILD_SHARED OFF CACHE INTERNAL "" FORCE)
-#set(BUILD_TESTS OFF CACHE INTERNAL "" FORCE)
-#set(BUILD_FUZZERS OFF CACHE INTERNAL "" FORCE)
-#set(BUILD_BENCHMARKS OFF CACHE INTERNAL "" FORCE)
-#add_subdirectory(c-blosc)
+    set(USE_PKGCONFIG FALSE)
 
-ExternalProject_Add(blosc
-        SOURCE_DIR
-            "${CMAKE_CURRENT_SOURCE_DIR}/c-blosc"
-        CMAKE_ARGS
-            -DBUILD_STATIC=ON
-            -DBUILD_SHARED=OFF
-            -DBUILD_TESTS=OFF
-            -DBUILD_FUZZERS=OFF
-            -DBUILD_BENCHMARKS=OFF
-        BINARY_DIR
-            "${CMAKE_CURRENT_SOURCE_DIR}/build/c-blosc"
-        INSTALL_DIR
-            "${CMAKE_CURRENT_SOURCE_DIR}/install"
-)
+    # set(OpenVDB_ROOT "${MY_INSTALL_PREFIX}")
+    set(Boost_ROOT "${MY_INSTALL_PREFIX}")
+    set(Blosc_ROOT "${MY_INSTALL_PREFIX}")
+    set(BLOSC_ROOT "${MY_INSTALL_PREFIX}")
+    set(TBB_ROOT "${MY_INSTALL_PREFIX}")
+    set(ZLIB_ROOT "${MY_INSTALL_PREFIX}")
 
-#[===[
-# Boost
-set(BOOST_INCLUDE_LIBRARIES "interprocess;iostreams;system")
-set(BUILD_STATIC ON CACHE INTERNAL "" FORCE)
-set(BUILD_SHARED OFF CACHE INTERNAL "" FORCE)
-set(BUILD_TESTS OFF CACHE INTERNAL "" FORCE)
-set(BOOST_IOSTREAMS_ENABLE_ZLIB OFF CACHE INTERNAL "" FORCE)
-add_subdirectory(boost)
+    set(USE_BLOSC TRUE)
+    set(USE_ZLIB TRUE)
 
-# OneTBB
-cmake_policy(SET CMP0077 NEW)
-set(BUILD_SHARED_LIBS ON CACHE INTERNAL "" FORCE)
-set(TBB_DISABLE_HWLOC_AUTOMATIC_SEARCH ON CACHE INTERNAL "" FORCE)
-set(TBB_TEST OFF CACHE INTERNAL "" FORCE)
-add_subdirectory(oneTBB)
+    set(Boost_USE_STATIC_LIBS TRUE)
+    set(TBB_USE_STATIC_LIBS FALSE)
 
-# Zlib
-set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "" FORCE)
-add_subdirectory(zlib)
-#]===]
+    set(OPENVDB_USE_STATIC_LIBS FALSE)
+    set(OPENVDB_USE_STATIC_DEPENDENCIES FALSE)
 
-#install(TARGETS blosc)
+    find_package(OpenVDB REQUIRED)
 
-#[===[
-add_library(build_openvdb STATIC library.cpp)
-target_link_libraries(build_openvdb
-        PUBLIC
-        blosc_static
-        boost_iostreams
-        boost_system
-        TBB::tbb
-        zlibstatic
-)
-
-add_executable(build_openvdb_test test.cpp)
-target_link_libraries(build_openvdb_test PRIVATE build_openvdb)
-
-
-add_executable(build_openvdb test.cpp vdb.cpp)
-target_link_libraries(build_openvdb OpenVDB::openvdb)
-#]===]
+    add_subdirectory(test)
+endif ()
