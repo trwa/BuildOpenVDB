@@ -2,7 +2,7 @@
 	path = vendor/c-blosc
 	url = https://github.com/Blosc/c-blosc.git
 [submodule "zlib"]
-	path = zlib
+	path = vendor/zlib
 	url = https://github.com/madler/zlib.git
 [submodule "boost"]
 	path = boost
