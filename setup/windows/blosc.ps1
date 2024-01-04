@@ -9,8 +9,8 @@ mkdir "$BLOSC_BUILD_DIR" -ea 0
 
 cmake                                           `
     -DCMAKE_INSTALL_PREFIX="$BLOSC_INSTALL_DIR" `
-    -DBUILD_STATIC=ON                           `
-    -DBUILD_SHARED=OFF                          `
+    -DBUILD_STATIC=OFF                          `
+    -DBUILD_SHARED=ON                           `
     -DBUILD_TESTS=OFF                           `
     -DBUILD_FUZZERS=OFF                         `
     -DBUILD_BENCHMARKS=OFF                      `
@@ -18,5 +18,6 @@ cmake                                           `
     -S "$BLOSC_SRC_DIR"                         `
     --fresh
 
+#cmake --build "$BLOSC_BUILD_DIR" --config Debug
 cmake --build "$BLOSC_BUILD_DIR" --config Release
 cmake --install "$BLOSC_BUILD_DIR"

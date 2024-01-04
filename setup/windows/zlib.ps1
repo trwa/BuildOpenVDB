@@ -2,14 +2,14 @@ $ROOT_DIR = Join-Path "$PSScriptRoot" "/../.."
 
 $ZLIB_SRC_DIR = Join-Path "$ROOT_DIR" "/zlib"
 $ZLIB_BUILD_DIR = Join-Path "$ROOT_DIR" "/build/zlib"
-$ZLIB_INSTALL_DIR = Join-Path "$ROOT_DIR" "/libs"
+$ZLIB_INSTALL_DIR = Join-Path "$ROOT_DIR" "/install"
 
-rm -Recurse -Force "$ZLIB_BUILD_DIR"
+Remove-Item -Recurse -Force "$ZLIB_BUILD_DIR"
 mkdir "$ZLIB_BUILD_DIR" -ea 0
 
 cmake                                          `
     -DCMAKE_INSTALL_PREFIX="$ZLIB_INSTALL_DIR" `
-    -DBUILD_SHARED_LIBS=TRUE                   `
+    -DBUILD_SHARED_LIBS=OFF                    `
     -B "$ZLIB_BUILD_DIR"                       `
     -S "$ZLIB_SRC_DIR"                         `
     --fresh
