@@ -8,7 +8,7 @@
 	path = boost
 	url = https://github.com/boostorg/boost.git
 [submodule "openvdb"]
-	path = openvdb
+	path = vendor/openvdb
 	url = https://github.com/AcademySoftwareFoundation/openvdb.git
 [submodule "oneTBB"]
 	path = vendor/oneTBB
