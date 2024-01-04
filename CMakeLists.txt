@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.27)
 # https://github.com/Sarcasm/cmake-superbuild.git
 option(USE_SUPERBUILD "Whether or not a superbuild should be invoked" ON)
 
-set(MY_SOURCE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}")
+set(MY_SOURCE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
 
 if (USE_SUPERBUILD)
     set(MY_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/_install")

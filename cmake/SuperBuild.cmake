@@ -112,7 +112,7 @@ ExternalProject_Add(my_openvdb
 
 ExternalProject_Add(test
         SOURCE_DIR
-        "${MY_SOURCE_PREFIX}"
+        "${MY_SOURCE_PREFIX}/.."
 
         BINARY_DIR
         "${MY_BUILD_PREFIX}/test"
