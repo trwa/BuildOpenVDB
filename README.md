@@ -9,10 +9,17 @@ Thus, it makes it suitable for self-contained use (for example, as a submodule i
 This build produces two shared libraries (`openvdb` and `tbb`).
 Other dependencies are statically linked into `openvdb`.
 
-## Supported OSes
+## Supported Platforms
 
-- [x] (Arch) Linux
-- [ ] Windows
+- [x] Linux GCC
+  - [x] Debug
+  - [x] Release
+- [ ] Windows MSVC
+  - [ ] Debug
+  - [x] Release
+- [ ] Windows MinGW
+  - [ ] Debug
+  - [ ] Release
 
 ## About the LICENSE
 
