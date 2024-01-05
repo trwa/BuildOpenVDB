@@ -6,14 +6,15 @@ Thus, it makes it suitable for self-contained use (for example, as a submodule i
 
 ## Build Type(s)
 
-* Static
+This build produces two shared libraries (`openvdb` and `tbb`).
+Other dependencies are statically linked into `openvdb`.
 
 ## Supported OSes
 
-* Windows
-* (Arch) Linux
+- [x] (Arch) Linux
+- [ ] Windows
 
 ## About the LICENSE
 
-Since this repo is merely "glue" over code of others, I have chosen to inherit the most restrictive license of all the dependent projects.
+Since this repo is merely a few lines of CMake "glue" over the code of others, I have chosen to inherit the most restrictive license of all the dependent projects.
 However, IANAL, so feel free to raise an issue if you believe that this should be changed.
