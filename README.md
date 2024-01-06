@@ -11,7 +11,7 @@ Other dependencies are statically linked into `openvdb`.
 
 ## Supported Platforms
 
-- [x] Linux GCC
+- [x] Linux g++ (GCC) 13.2.1
   - [x] Debug
   - [x] Release
 - [ ] Windows MSVC
