@@ -180,6 +180,8 @@ function(FindOpenVDB)
     find_package(OpenVDB REQUIRED)
 endfunction()
 
+add_dependencies(ep_openvdb ep_blosc ep_boost ep_tbb ep_zlib)
+
 # This will fail if the ep_* targets are not built
 FindOpenVDB()
 
