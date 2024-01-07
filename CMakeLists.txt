@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27.4) # 3.27.4 is required by Boost 1.83.0
-project("build-openvdb" LANGUAGES CXX)
+project("build_openvdb" LANGUAGES CXX)
 
 include(ExternalProject)
 
@@ -8,7 +8,7 @@ set(CUSTOM_BUILD_PATH "${CUSTOM_WORKDIR}/_deps")
 set(CUSTOM_PREFIX_PATH "${CUSTOM_WORKDIR}/_install")
 set(CUSTOM_VENDOR_PATH "${CMAKE_SOURCE_DIR}/vendor")
 
-ExternalProject_Add(ep_zlib
+ExternalProject_Add(build_zlib
         SOURCE_DIR
         "${CUSTOM_VENDOR_PATH}/zlib"
 
@@ -24,7 +24,7 @@ ExternalProject_Add(ep_zlib
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON # https://github.com/google/glog/issues/983#issuecomment-1845388247
 )
 
-ExternalProject_Add(ep_blosc
+ExternalProject_Add(build_blosc
         SOURCE_DIR
         "${CUSTOM_VENDOR_PATH}/c-blosc"
 
@@ -48,7 +48,7 @@ ExternalProject_Add(ep_blosc
 # Separator trick: https://stackoverflow.com/a/45433229
 set(MY_BOOST_LIBRARIES "interprocess;iostreams;system")
 string(REPLACE ";" "|" MY_BOOST_LIBRARIES_ALT_SEP "${MY_BOOST_LIBRARIES}")
-ExternalProject_Add(ep_boost
+ExternalProject_Add(build_boost
         SOURCE_DIR
         "${CUSTOM_VENDOR_PATH}/boost"
 
@@ -73,7 +73,7 @@ ExternalProject_Add(ep_boost
         -DBUILD_SHARED_LIBS=OFF
 )
 
-ExternalProject_Add(ep_tbb
+ExternalProject_Add(build_tbb
         SOURCE_DIR
         "${CUSTOM_VENDOR_PATH}/oneTBB"
 
@@ -92,7 +92,7 @@ ExternalProject_Add(ep_tbb
         -DTBB_DISABLE_HWLOC_AUTOMATIC_SEARCH=TRUE
 )
 
-ExternalProject_Add(ep_openvdb
+ExternalProject_Add(build_openvdb
         SOURCE_DIR
         "${CUSTOM_VENDOR_PATH}/openvdb"
 
@@ -180,9 +180,9 @@ function(FindOpenVDB)
     find_package(OpenVDB REQUIRED)
 endfunction()
 
-add_dependencies(ep_openvdb ep_blosc ep_boost ep_tbb ep_zlib)
+add_dependencies(build_openvdb build_blosc build_boost build_tbb build_zlib)
 
-# This will fail if the ep_* targets are not built
+# This will fail if the build_* targets are not built
 FindOpenVDB()
 
 # Test program compilation
