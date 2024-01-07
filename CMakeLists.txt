@@ -143,7 +143,10 @@ ExternalProject_Add(build_openvdb
         -DUSE_PKGCONFIG=OFF
 )
 
-function(FindOpenVDB)
+# Make sure that OpenVDB is built after its dependencies
+add_dependencies(build_openvdb build_blosc build_boost build_tbb build_zlib)
+
+block(SCOPE_FOR VARIABLES)
     set(DISABLE_CMAKE_SEARCH_PATHS TRUE)
     set(CMAKE_MODULE_PATH "${CUSTOM_PREFIX_PATH}/lib/cmake/OpenVDB")
     set(CMAKE_PREFIX_PATH "${CUSTOM_PREFIX_PATH}")
@@ -177,13 +180,9 @@ function(FindOpenVDB)
     set(OPENVDB_USE_STATIC_DEPENDENCIES OFF)
 
     find_package(OpenVDB QUIET)
-    SET(OpenVDB_FOUND "${OpenVDB_FOUND}" CACHE INTERNAL "OpenVDB_FOUND")
-endfunction()
+    set(OpenVDB_FOUND "${OpenVDB_FOUND}" CACHE INTERNAL "OpenVDB_FOUND")
+endblock()
 
-add_dependencies(build_openvdb build_blosc build_boost build_tbb build_zlib)
-
-# This will fail if the build_* targets are not built
-FindOpenVDB()
 if (OpenVDB_FOUND)
     message(STATUS "OpenVDB found")
 
