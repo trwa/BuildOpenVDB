@@ -2,7 +2,7 @@
 
 This is a (hopefully) sensible build of ASFW's [OpenVDB](https://www.openvdb.org/) library for sparse volumetric data. 
 Differently from what suggested in the [official README](https://github.com/AcademySoftwareFoundation/openvdb), this repo assumes no system dependencies other than [git](https://git-scm.com/), [CMake](https://cmake.org/) and a suitable C++ toolchain.
-Thus, it makes it suitable for self-contained use (for example, as a submodule in your project).
+For any references, here's the [link to the official documentation](https://www.openvdb.org/documentation/doxygen/build.html).
 
 ## Build Type(s)
 
@@ -14,7 +14,7 @@ Other dependencies are statically linked into `openvdb`.
 - [x] Linux g++ (GCC) 13.2.1
   - [x] Debug
   - [x] Release
-- [ ] Windows MSVC
+- [ ] Windows MSVC 
   - [ ] Debug
   - [x] Release
 - [ ] Windows MinGW
