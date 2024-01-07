@@ -176,7 +176,7 @@ function(FindOpenVDB)
 
     set(OPENVDB_USE_STATIC_DEPENDENCIES OFF)
 
-    find_package(OpenVDB)
+    find_package(OpenVDB QUIET)
     SET(OpenVDB_FOUND "${OpenVDB_FOUND}" CACHE INTERNAL "OpenVDB_FOUND")
 endfunction()
 
