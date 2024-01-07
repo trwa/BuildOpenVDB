@@ -4,8 +4,7 @@ This is a (hopefully) sensible build of ASFW's [OpenVDB](https://www.openvdb.org
 Differently from what suggested in the [official README](https://github.com/AcademySoftwareFoundation/openvdb), this repo assumes no system dependencies other than [git](https://git-scm.com/), [CMake](https://cmake.org/) and a suitable C++ toolchain.
 For any references, here's the [link to the official documentation](https://www.openvdb.org/documentation/doxygen/build.html).
 
-## Build Type(s)
-
+## Build Artifacts
 This build produces two shared libraries (`openvdb` and `tbb`).
 Other dependencies are statically linked into `openvdb`.
 
