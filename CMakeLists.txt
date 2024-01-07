@@ -177,13 +177,17 @@ function(FindOpenVDB)
 
     set(OPENVDB_USE_STATIC_DEPENDENCIES OFF)
 
-    find_package(OpenVDB REQUIRED)
+    find_package(OpenVDB)
+    SET(OpenVDB_FOUND "${OpenVDB_FOUND}" CACHE INTERNAL "OpenVDB_FOUND")
 endfunction()
 
 add_dependencies(build_openvdb build_blosc build_boost build_tbb build_zlib)
 
 # This will fail if the build_* targets are not built
 FindOpenVDB()
-
-# Test program compilation
-add_subdirectory(test)
+if (OpenVDB_FOUND)
+    message(STATUS "OpenVDB found")
+    add_subdirectory(test)
+else ()
+    message(WARNING "OpenVDB not found. Please build build_openvdb first.")
+endif ()
