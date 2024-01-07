@@ -3,10 +3,9 @@ project("build_openvdb" LANGUAGES CXX)
 
 include(ExternalProject)
 
-set(CUSTOM_WORKDIR "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}")
-set(CUSTOM_BUILD_PATH "${CUSTOM_WORKDIR}/_deps")
-set(CUSTOM_PREFIX_PATH "${CUSTOM_WORKDIR}/_install")
-set(CUSTOM_VENDOR_PATH "${CMAKE_SOURCE_DIR}/vendor")
+set(CUSTOM_BUILD_PATH "${CMAKE_CURRENT_BINARY_DIR}/_deps")
+set(CUSTOM_PREFIX_PATH "${CMAKE_CURRENT_BINARY_DIR}/_install")
+set(CUSTOM_VENDOR_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
 
 ExternalProject_Add(build_zlib
         SOURCE_DIR
@@ -151,7 +150,7 @@ function(FindOpenVDB)
 
     set(USE_PKGCONFIG FALSE)
 
-    # set(OpenVDB_ROOT "${MY_INSTALL_PREFIX}")
+    # set(OpenVDB_ROOT "${CUSTOM_PREFIX_PATH}")
     set(Boost_ROOT "${CUSTOM_PREFIX_PATH}")
     set(BOOST_INCLUDEDIR "${CUSTOM_PREFIX_PATH}/include")
     set(BOOST_LIBRARYDIR "${CUSTOM_PREFIX_PATH}/lib")
