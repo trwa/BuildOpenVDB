@@ -186,7 +186,9 @@ add_dependencies(build_openvdb build_blosc build_boost build_tbb build_zlib)
 FindOpenVDB()
 if (OpenVDB_FOUND)
     message(STATUS "OpenVDB found")
+
+    # Add dummy target to test that OpenVDB is usable
     add_subdirectory(test)
 else ()
-    message(WARNING "OpenVDB not found. Please build build_openvdb first and reload the project.")
+    message(WARNING "OpenVDB not found. Please build target build_openvdb first and reload the project.")
 endif ()
