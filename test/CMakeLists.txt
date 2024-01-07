@@ -1,2 +1,2 @@
-add_executable(test test.cpp vdb.cpp)
+add_executable(test test.cpp)
 target_link_libraries(test PUBLIC OpenVDB::openvdb)

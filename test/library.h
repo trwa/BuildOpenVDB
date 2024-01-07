@@ -1,6 +1,0 @@
-#ifndef BUILD_OPENVDB_LIBRARY_H
-#define BUILD_OPENVDB_LIBRARY_H
-
-void hello();
-
-#endif //BUILD_OPENVDB_LIBRARY_H
