@@ -3,19 +3,25 @@ project("build_openvdb" LANGUAGES CXX)
 
 include(ExternalProject)
 
-set(CUSTOM_BUILD_PATH "${CMAKE_CURRENT_BINARY_DIR}/_deps")
-set(CUSTOM_PREFIX_PATH "${CMAKE_CURRENT_BINARY_DIR}/_install")
-set(CUSTOM_VENDOR_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
+# Installation directory has to be global, to be used by the function that finds OpenVDB
+# (CMake lacks "closure" semantics https://stackoverflow.com/a/69913861/20683133)
+set(BUILD_OPENVDB_PREFIX_PATH "${CMAKE_CURRENT_BINARY_DIR}/_install" CACHE INTERNAL "Install prefix for OpenVDB")
+
+# Build directories are located here
+set(BUILD_OPENVDB_BUILD_PATH "${CMAKE_CURRENT_BINARY_DIR}/_deps")
+
+# Source directories are located here
+set(BUILD_OPENVDB_VENDOR_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
 
 ExternalProject_Add(build_zlib
         SOURCE_DIR
-        "${CUSTOM_VENDOR_PATH}/zlib"
+        "${BUILD_OPENVDB_VENDOR_PATH}/zlib"
 
         BINARY_DIR
-        "${CUSTOM_BUILD_PATH}/zlib"
+        "${BUILD_OPENVDB_BUILD_PATH}/zlib"
 
         INSTALL_DIR
-        "${CUSTOM_PREFIX_PATH}"
+        "${BUILD_OPENVDB_PREFIX_PATH}"
 
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -25,13 +31,13 @@ ExternalProject_Add(build_zlib
 
 ExternalProject_Add(build_blosc
         SOURCE_DIR
-        "${CUSTOM_VENDOR_PATH}/c-blosc"
+        "${BUILD_OPENVDB_VENDOR_PATH}/c-blosc"
 
         BINARY_DIR
-        "${CUSTOM_BUILD_PATH}/c-blosc"
+        "${BUILD_OPENVDB_BUILD_PATH}/c-blosc"
 
         INSTALL_DIR
-        "${CUSTOM_PREFIX_PATH}"
+        "${BUILD_OPENVDB_PREFIX_PATH}"
 
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -49,13 +55,13 @@ set(MY_BOOST_LIBRARIES "interprocess;iostreams;system")
 string(REPLACE ";" "|" MY_BOOST_LIBRARIES_ALT_SEP "${MY_BOOST_LIBRARIES}")
 ExternalProject_Add(build_boost
         SOURCE_DIR
-        "${CUSTOM_VENDOR_PATH}/boost"
+        "${BUILD_OPENVDB_VENDOR_PATH}/boost"
 
         BINARY_DIR
-        "${CUSTOM_BUILD_PATH}/boost"
+        "${BUILD_OPENVDB_BUILD_PATH}/boost"
 
         INSTALL_DIR
-        "${CUSTOM_PREFIX_PATH}"
+        "${BUILD_OPENVDB_PREFIX_PATH}"
 
         LIST_SEPARATOR |
 
@@ -74,13 +80,13 @@ ExternalProject_Add(build_boost
 
 ExternalProject_Add(build_tbb
         SOURCE_DIR
-        "${CUSTOM_VENDOR_PATH}/oneTBB"
+        "${BUILD_OPENVDB_VENDOR_PATH}/oneTBB"
 
         BINARY_DIR
-        "${CUSTOM_BUILD_PATH}/tbb"
+        "${BUILD_OPENVDB_BUILD_PATH}/tbb"
 
         INSTALL_DIR
-        "${CUSTOM_PREFIX_PATH}"
+        "${BUILD_OPENVDB_PREFIX_PATH}"
 
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -93,13 +99,13 @@ ExternalProject_Add(build_tbb
 
 ExternalProject_Add(build_openvdb
         SOURCE_DIR
-        "${CUSTOM_VENDOR_PATH}/openvdb"
+        "${BUILD_OPENVDB_VENDOR_PATH}/openvdb"
 
         BINARY_DIR
-        "${CUSTOM_BUILD_PATH}/openvdb"
+        "${BUILD_OPENVDB_BUILD_PATH}/openvdb"
 
         INSTALL_DIR
-        "${CUSTOM_PREFIX_PATH}"
+        "${BUILD_OPENVDB_PREFIX_PATH}"
 
         CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -126,13 +132,13 @@ ExternalProject_Add(build_openvdb
         -DBOOST_USE_STATIC_LIBS=ON
 
         -DTBB_ROOT=<INSTALL_DIR>
-        -DTBB_INCLUDEDIR=${CUSTOM_PREFIX_PATH}/include
-        -DTBB_LIBRARYDIR=${CUSTOM_PREFIX_PATH}/lib
+        -DTBB_INCLUDEDIR=${BUILD_OPENVDB_PREFIX_PATH}/include
+        -DTBB_LIBRARYDIR=${BUILD_OPENVDB_PREFIX_PATH}/lib
         -DTBB_USE_STATIC_LIBS=OFF
 
         -DZLIB_ROOT=<INSTALL_DIR>
-        -DZLIB_INCLUDEDIR=${CUSTOM_PREFIX_PATH}/include
-        -DZLIB_LIBRARYDIR=${CUSTOM_PREFIX_PATH}/lib
+        -DZLIB_INCLUDEDIR=${BUILD_OPENVDB_PREFIX_PATH}/include
+        -DZLIB_LIBRARYDIR=${BUILD_OPENVDB_PREFIX_PATH}/lib
         -DZLIB_USE_STATIC_LIBS=ON
 
         -DUSE_STATIC_DEPENDENCIES=OFF
@@ -146,32 +152,33 @@ ExternalProject_Add(build_openvdb
 # Make sure that OpenVDB is built after its dependencies
 add_dependencies(build_openvdb build_blosc build_boost build_tbb build_zlib)
 
-block(SCOPE_FOR VARIABLES)
+function(FindOpenVDB)
+#block(SCOPE_FOR VARIABLES)
     set(DISABLE_CMAKE_SEARCH_PATHS TRUE)
-    set(CMAKE_MODULE_PATH "${CUSTOM_PREFIX_PATH}/lib/cmake/OpenVDB")
-    set(CMAKE_PREFIX_PATH "${CUSTOM_PREFIX_PATH}")
+    set(CMAKE_MODULE_PATH "${BUILD_OPENVDB_PREFIX_PATH}/lib/cmake/OpenVDB")
+    set(CMAKE_PREFIX_PATH "${BUILD_OPENVDB_PREFIX_PATH}")
 
     set(USE_PKGCONFIG FALSE)
 
-    # set(OpenVDB_ROOT "${CUSTOM_PREFIX_PATH}")
-    set(Boost_ROOT "${CUSTOM_PREFIX_PATH}")
-    set(BOOST_INCLUDEDIR "${CUSTOM_PREFIX_PATH}/include")
-    set(BOOST_LIBRARYDIR "${CUSTOM_PREFIX_PATH}/lib")
+    # set(OpenVDB_ROOT "${BUILD_OPENVDB_PREFIX_PATH}")
+    set(Boost_ROOT "${BUILD_OPENVDB_PREFIX_PATH}")
+    set(BOOST_INCLUDEDIR "${BUILD_OPENVDB_PREFIX_PATH}/include")
+    set(BOOST_LIBRARYDIR "${BUILD_OPENVDB_PREFIX_PATH}/lib")
     set(BOOST_USE_STATIC_LIBS ON)
 
-    set(Blosc_ROOT "${CUSTOM_PREFIX_PATH}")
-    set(BLOSC_INCLUDEDIR "${CUSTOM_PREFIX_PATH}/include")
-    set(BLOSC_LIBRARYDIR "${CUSTOM_PREFIX_PATH}/lib")
+    set(Blosc_ROOT "${BUILD_OPENVDB_PREFIX_PATH}")
+    set(BLOSC_INCLUDEDIR "${BUILD_OPENVDB_PREFIX_PATH}/include")
+    set(BLOSC_LIBRARYDIR "${BUILD_OPENVDB_PREFIX_PATH}/lib")
     set(BLOSC_USE_STATIC_LIBS ON)
 
-    set(TBB_ROOT "${CUSTOM_PREFIX_PATH}")
-    set(TBB_INCLUDEDIR "${CUSTOM_PREFIX_PATH}/include")
-    set(TBB_LIBRARYDIR "${CUSTOM_PREFIX_PATH}/lib")
+    set(TBB_ROOT "${BUILD_OPENVDB_PREFIX_PATH}")
+    set(TBB_INCLUDEDIR "${BUILD_OPENVDB_PREFIX_PATH}/include")
+    set(TBB_LIBRARYDIR "${BUILD_OPENVDB_PREFIX_PATH}/lib")
     set(TBB_USE_STATIC_LIBS OFF)
 
-    set(ZLIB_ROOT "${CUSTOM_PREFIX_PATH}")
-    set(ZLIB_INCLUDEDIR "${CUSTOM_PREFIX_PATH}/include")
-    set(ZLIB_LIBRARYDIR "${CUSTOM_PREFIX_PATH}/lib")
+    set(ZLIB_ROOT "${BUILD_OPENVDB_PREFIX_PATH}")
+    set(ZLIB_INCLUDEDIR "${BUILD_OPENVDB_PREFIX_PATH}/include")
+    set(ZLIB_LIBRARYDIR "${BUILD_OPENVDB_PREFIX_PATH}/lib")
     set(ZLIB_USE_STATIC_LIBS ON)
 
     set(USE_BLOSC TRUE)
@@ -181,7 +188,10 @@ block(SCOPE_FOR VARIABLES)
 
     find_package(OpenVDB QUIET)
     #set(OpenVDB_FOUND "${OpenVDB_FOUND}" CACHE INTERNAL "OpenVDB_FOUND")
-endblock()
+#endblock()
+endfunction()
+
+FindOpenVDB()
 
 if (TARGET OpenVDB::openvdb)
     message(STATUS "OpenVDB found")
