@@ -180,10 +180,10 @@ block(SCOPE_FOR VARIABLES)
     set(OPENVDB_USE_STATIC_DEPENDENCIES OFF)
 
     find_package(OpenVDB QUIET)
-    set(OpenVDB_FOUND "${OpenVDB_FOUND}" CACHE INTERNAL "OpenVDB_FOUND")
+    #set(OpenVDB_FOUND "${OpenVDB_FOUND}" CACHE INTERNAL "OpenVDB_FOUND")
 endblock()
 
-if (OpenVDB_FOUND)
+if (TARGET OpenVDB::openvdb)
     message(STATUS "OpenVDB found")
 
     # Add dummy target to test that OpenVDB is usable
