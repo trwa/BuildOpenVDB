@@ -13,7 +13,7 @@ set(BUILD_OPENVDB_BUILD_PATH "${CMAKE_CURRENT_BINARY_DIR}/_deps")
 # Source directories are located here
 set(BUILD_OPENVDB_VENDOR_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
 
-ExternalProject_Add(build_zlib
+ExternalProject_Add(BuildZlib
         SOURCE_DIR
         "${BUILD_OPENVDB_VENDOR_PATH}/zlib"
 
@@ -29,7 +29,7 @@ ExternalProject_Add(build_zlib
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON # https://github.com/google/glog/issues/983#issuecomment-1845388247
 )
 
-ExternalProject_Add(build_blosc
+ExternalProject_Add(BuildBlosc
         SOURCE_DIR
         "${BUILD_OPENVDB_VENDOR_PATH}/c-blosc"
 
@@ -51,9 +51,9 @@ ExternalProject_Add(build_blosc
 )
 
 # Separator trick: https://stackoverflow.com/a/45433229
-set(MY_BOOST_LIBRARIES "interprocess;iostreams;system")
-string(REPLACE ";" "|" MY_BOOST_LIBRARIES_ALT_SEP "${MY_BOOST_LIBRARIES}")
-ExternalProject_Add(build_boost
+set(BUILD_OPENVDB_BOOST_LIBRARIES "interprocess;iostreams;system")
+string(REPLACE ";" "|" BUILD_OPENVDB_BOOST_LIBRARIES_ALT_SEP "${BUILD_OPENVDB_BOOST_LIBRARIES}")
+ExternalProject_Add(BuildBoost
         SOURCE_DIR
         "${BUILD_OPENVDB_VENDOR_PATH}/boost"
 
@@ -70,7 +70,7 @@ ExternalProject_Add(build_boost
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON # https://github.com/google/glog/issues/983#issuecomment-1845388247
         -DCMAKE_MODULE_PATH=<INSTALL_DIR>
-        -DBOOST_INCLUDE_LIBRARIES=${MY_BOOST_LIBRARIES_ALT_SEP}
+        -DBOOST_INCLUDE_LIBRARIES=${BUILD_OPENVDB_BOOST_LIBRARIES_ALT_SEP}
         -DBOOST_IOSTREAMS_ENABLE_ZLIB=OFF
         -DBOOST_IOSTREAMS_ENABLE_BZIP2=OFF
         -DBOOST_IOSTREAMS_ENABLE_LZMA=OFF
@@ -78,12 +78,12 @@ ExternalProject_Add(build_boost
         -DBUILD_SHARED_LIBS=OFF
 )
 
-ExternalProject_Add(build_tbb
+ExternalProject_Add(BuildOneTBB
         SOURCE_DIR
         "${BUILD_OPENVDB_VENDOR_PATH}/oneTBB"
 
         BINARY_DIR
-        "${BUILD_OPENVDB_BUILD_PATH}/tbb"
+        "${BUILD_OPENVDB_BUILD_PATH}/oneTBB"
 
         INSTALL_DIR
         "${BUILD_OPENVDB_PREFIX_PATH}"
@@ -97,7 +97,7 @@ ExternalProject_Add(build_tbb
         -DTBB_DISABLE_HWLOC_AUTOMATIC_SEARCH=TRUE
 )
 
-ExternalProject_Add(build_openvdb
+ExternalProject_Add(BuildOpenVDB
         SOURCE_DIR
         "${BUILD_OPENVDB_VENDOR_PATH}/openvdb"
 
@@ -150,17 +150,17 @@ ExternalProject_Add(build_openvdb
 )
 
 # Make sure that OpenVDB is built after its dependencies
-add_dependencies(build_openvdb build_blosc build_boost build_tbb build_zlib)
+add_dependencies(BuildOpenVDB BuildBlosc BuildBoost BuildOneTBB BuildZlib)
 
 function(FindOpenVDB)
-#block(SCOPE_FOR VARIABLES)
+    #block(SCOPE_FOR VARIABLES)
     set(DISABLE_CMAKE_SEARCH_PATHS TRUE)
     set(CMAKE_MODULE_PATH "${BUILD_OPENVDB_PREFIX_PATH}/lib/cmake/OpenVDB")
     set(CMAKE_PREFIX_PATH "${BUILD_OPENVDB_PREFIX_PATH}")
 
     set(USE_PKGCONFIG FALSE)
 
-    # set(OpenVDB_ROOT "${BUILD_OPENVDB_PREFIX_PATH}")
+    #set(OpenVDB_ROOT "${BUILD_OPENVDB_PREFIX_PATH}")
     set(Boost_ROOT "${BUILD_OPENVDB_PREFIX_PATH}")
     set(BOOST_INCLUDEDIR "${BUILD_OPENVDB_PREFIX_PATH}/include")
     set(BOOST_LIBRARYDIR "${BUILD_OPENVDB_PREFIX_PATH}/lib")
@@ -188,7 +188,7 @@ function(FindOpenVDB)
 
     find_package(OpenVDB QUIET)
     #set(OpenVDB_FOUND "${OpenVDB_FOUND}" CACHE INTERNAL "OpenVDB_FOUND")
-#endblock()
+    #endblock()
 endfunction()
 
 FindOpenVDB()
@@ -199,5 +199,5 @@ if (TARGET OpenVDB::openvdb)
     # Add dummy target to test that OpenVDB is usable
     add_subdirectory(test)
 else ()
-    message(WARNING "OpenVDB not found. Please build target build_openvdb first and reload the project.")
+    message(WARNING "OpenVDB not found. Please build target 'BuildOpenVDB' and reload the project.")
 endif ()
