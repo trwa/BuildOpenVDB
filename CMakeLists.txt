@@ -155,7 +155,7 @@ add_dependencies(BuildOpenVDB BuildBlosc BuildBoost BuildOneTBB BuildZlib)
 function(FindOpenVDB)
     #block(SCOPE_FOR VARIABLES)
     set(DISABLE_CMAKE_SEARCH_PATHS TRUE)
-    set(CMAKE_MODULE_PATH "${BUILD_OPENVDB_PREFIX_PATH}/lib/cmake/OpenVDB")
+    set(CMAKE_MODULE_PATH "${BUILD_OPENVDB_PREFIX_PATH}/lib64/cmake/OpenVDB")
     set(CMAKE_PREFIX_PATH "${BUILD_OPENVDB_PREFIX_PATH}")
 
     set(USE_PKGCONFIG FALSE)
